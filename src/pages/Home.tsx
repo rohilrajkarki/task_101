@@ -3,7 +3,7 @@ import List from "../components/List";
 
 const Home = () => {
   const [inputText, setInputText] = useState("");
-  const [listItems, setListItems] = useState<Item[]>([]);
+  const [todoItems, setTodoItems] = useState<Item[]>([]);
 
   const addTodo = () => {
     const [createdDate, createdTime] = new Date()
@@ -13,7 +13,7 @@ const Home = () => {
       })
       .split(", ");
 
-    setListItems((prev) => [
+    setTodoItems((prev) => [
       ...prev,
       {
         id: Date.now(),
@@ -28,12 +28,12 @@ const Home = () => {
   };
 
   const removeTodo = (id: number) => {
-    setListItems((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    setTodoItems((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
   return (
     <>
       <div>
-        Home
+        TODO
         <input
           placeholder="Enter a task"
           onChange={(e) => setInputText(e.target.value)}
@@ -43,7 +43,7 @@ const Home = () => {
         <button onClick={addTodo}>Create</button>
       </div>
       <div>
-        {listItems.map(({ id, text, createdDate, createdTime }) => (
+        {todoItems.map(({ id, text, createdDate, createdTime }) => (
           <li key={id}>
             <List
               listItem={text + " " + createdDate + " " + createdTime}
