@@ -17,7 +17,14 @@ const Home = () => {
 
     setListItems((prev) => [
       ...prev,
-      { id: Date.now(), text: inputText, createdDate, createdTime },
+      {
+        id: Date.now(),
+        text: inputText,
+        createdDate,
+        createdTime,
+        completed: false,
+        deadline: "",
+      },
     ]);
     setInputText("");
   };

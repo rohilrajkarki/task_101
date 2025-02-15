@@ -3,4 +3,6 @@ declare interface Item {
   text: string;
   createdDate: string;
   createdTime: string;
+  completed: boolean;
+  deadline: string;
 }
