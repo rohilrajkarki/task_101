@@ -5,7 +5,7 @@ const Home = () => {
   const [inputText, setInputText] = useState("");
   const [listItems, setListItems] = useState<Item[]>([]);
 
-  const handleSubmit = () => {
+  const addTodo = () => {
     const [createdDate, createdTime] = new Date()
       .toLocaleDateString("en-US", {
         hour: "2-digit",
@@ -29,6 +29,9 @@ const Home = () => {
     setInputText("");
   };
 
+  const removeTodo = (id: number) => {
+    setListItems((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+  };
   return (
     <>
       <div>
@@ -37,16 +40,19 @@ const Home = () => {
           placeholder="Enter a task"
           onChange={(e) => setInputText(e.target.value)}
           value={inputText}
-          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          onKeyDown={(e) => e.key === "Enter" && addTodo()}
         />
-        <button onClick={handleSubmit}>Create</button>
+        <button onClick={addTodo}>Create</button>
       </div>
       <div>
         {listItems.map(({ id, text, createdDate, createdTime }) => (
-          <List
-            listItem={text + " " + createdDate + " " + createdTime}
-            key={id}
-          />
+          <li key={id}>
+            <List
+              listItem={text + " " + createdDate + " " + createdTime}
+              key={id}
+            />
+            <button onClick={() => removeTodo(id)}>Remove </button>
+          </li>
         ))}
       </div>
     </>
