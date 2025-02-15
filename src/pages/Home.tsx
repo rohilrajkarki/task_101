@@ -3,16 +3,22 @@ import List from "../components/List";
 
 const Home = () => {
   const [inputText, setInputText] = useState("");
-  const [listItems, setListItems] = useState<string[]>([]);
+  const [listItems, setListItems] = useState<Item[]>([]);
 
   const handleSubmit = () => {
-    const createdDate = new Date().toLocaleDateString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    const [createdDate, createdTime] = new Date()
+      .toLocaleDateString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .split(", ");
 
-    console.log(inputText, createdDate);
-    setListItems([...listItems, inputText]);
+    console.log(inputText, createdDate, "time", createdTime, typeof listItems);
+
+    setListItems((prev) => [
+      ...prev,
+      { id: Date.now(), text: inputText, createdDate, createdTime },
+    ]);
     setInputText("");
   };
 
@@ -29,8 +35,11 @@ const Home = () => {
         <button onClick={handleSubmit}>Create</button>
       </div>
       <div>
-        {listItems.map((item, index) => (
-          <List listItem={item} key={item + index} />
+        {listItems.map(({ id, text, createdDate, createdTime }) => (
+          <List
+            listItem={text + " " + createdDate + " " + createdTime}
+            key={id}
+          />
         ))}
       </div>
     </>
