@@ -13,8 +13,6 @@ const Home = () => {
       })
       .split(", ");
 
-    console.log(inputText, createdDate, "time", createdTime, typeof listItems);
-
     setListItems((prev) => [
       ...prev,
       {
