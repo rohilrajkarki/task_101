@@ -7,6 +7,7 @@ const Home = () => {
   const [inputText, setInputText] = useState("");
   const [todoItems, setTodoItems] = useState<Item[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState<number>();
 
   const addTodo = () => {
     const [createdDate, createdTime] = new Date()
@@ -30,11 +31,15 @@ const Home = () => {
     setInputText("");
   };
 
-  const removeTodo = (id: number) => {
-    console.log(id, "sdsds");
-    setTodoItems((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-  };
+  const removeTodo = () => {
+    console.log(selectedTodo, "sdsds");
+    setTodoItems((prevTodos) =>
+      prevTodos.filter((todo) => todo.id !== selectedTodo)
+    );
 
+    setShowModal(false);
+  };
+  console.log(todoItems);
   return (
     <div className="home">
       <div className="main_container">
@@ -55,7 +60,14 @@ const Home = () => {
                 listItem={text + " " + createdDate + " " + createdTime}
                 key={id}
               />
-              <button onClick={() => setShowModal(true)}>Remove </button>
+              <button
+                onClick={() => {
+                  setShowModal(true);
+                  setSelectedTodo(id);
+                }}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </div>
