@@ -43,7 +43,7 @@ const Home = () => {
         <div>
           TODO List:
           <input
-            placeholder="Enter a task"
+            placeholder="Enter a task here"
             onChange={(e) => setInputText(e.target.value)}
             value={inputText}
             onKeyDown={(e) => e.key === "Enter" && addTodo()}
