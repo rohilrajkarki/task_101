@@ -35,10 +35,8 @@ const Home = () => {
     setTodoItems((prevTodos) =>
       prevTodos.filter((todo) => todo.id !== selectedTodo)
     );
-
     setShowModal(false);
   };
-  console.log(todoItems);
   return (
     <div className="home">
       <div className="main_container">
