@@ -32,7 +32,6 @@ const Home = () => {
   };
 
   const removeTodo = () => {
-    console.log(selectedTodo, "sdsds");
     setTodoItems((prevTodos) =>
       prevTodos.filter((todo) => todo.id !== selectedTodo)
     );
