@@ -1,0 +1,13 @@
+.home {
+  display: flex;
+}
+
+.modal_styles {
+  background-color: grey;
+  position: absolute;
+  height: 150px;
+  width: 400px;
+  .modal_buttons {
+    height: 120px;
+  }
+}
