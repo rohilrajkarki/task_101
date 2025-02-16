@@ -41,7 +41,7 @@ const Home = () => {
     <div className="home">
       <div className="main_container">
         <div>
-          TODO
+          TODO List:
           <input
             placeholder="Enter a task"
             onChange={(e) => setInputText(e.target.value)}
