@@ -5,7 +5,7 @@ import "./Home.scss";
 
 const Home = () => {
   const [inputText, setInputText] = useState("");
-  const [todoItems, setTodoItems] = useState<Item[]>([]);
+  const [todoItems, setTodoItems] = useState<Todo[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedTodo, setSelectedTodo] = useState<number>();
 

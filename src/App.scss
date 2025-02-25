@@ -2,22 +2,23 @@
   width: 95vw; // Full viewport width
   height: 100vh; // Full viewport height (optional)
   display: flex; // Flex layout (optional, if you want content alignment)
-  justify-content: center; // Center content horizontally (optional)
+  // justify-content: center; // Center content horizontally (optional)
   align-items: center; // Center content vertically (optional)
 }
 
 .home {
-  flex: 1;
+  // flex: 1;
   // background-color: red;
 }
 
 .dateBox {
   // background-color: green;
   background-color: grey;
-  border-radius: 20%;
+  border-radius: 5%;
   height: 200px;
-  width: 300px;
+  width: 400px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 15px;
 }

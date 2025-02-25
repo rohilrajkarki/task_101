@@ -1,4 +1,4 @@
-declare interface Item {
+declare interface Todo {
   id: number;
   text: string;
   createdDate: string;
