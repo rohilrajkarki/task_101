@@ -39,7 +39,7 @@ const Home = () => {
   };
   return (
     <div className="home">
-      <div className="main_container">
+      <div className="todo_main_container">
         <div>
           TODO List:
           <input
