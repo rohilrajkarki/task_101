@@ -7,7 +7,7 @@ function App() {
     <div className="main_container">
       {/* <Home /> */}
       {mockData.map((item) => (
-        <DateBox workData={item} />
+        <DateBox workData={item} key={item.date} />
       ))}
     </div>
   );
