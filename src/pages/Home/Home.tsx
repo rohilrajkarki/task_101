@@ -1,6 +1,6 @@
 import { useState } from "react";
-import List from "../components/List";
-import Modal from "../components/Modal";
+import List from "../../components/List";
+import Modal from "../../components/Modal";
 import "./Home.scss";
 
 const Home = () => {

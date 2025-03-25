@@ -2,7 +2,7 @@ import "./App.scss";
 import Calend from "./components/Calander/Calend";
 import DateBox from "./components/DateBox/DateBox";
 import mockData from "./data/mockData";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
