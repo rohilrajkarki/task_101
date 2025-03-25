@@ -37,6 +37,15 @@ const Home = () => {
     );
     setShowModal(false);
   };
+
+  const toggleComeletion = (id: number) => {
+    const updatedTodos = [...todoItems];
+
+    updatedTodos.filter((item) => item.id === id)[0].completed =
+      !updatedTodos.filter((item) => item.id === id)[0].completed;
+
+    setTodoItems(updatedTodos);
+  };
   return (
     <div className="home">
       <div className="todo_main_container">
@@ -51,22 +60,39 @@ const Home = () => {
           <button onClick={addTodo}>Create</button>
         </div>
         <div>
-          {todoItems.map(({ id, text, createdDate, createdTime }) => (
-            <li key={id}>
-              <List
+          {todoItems.map(
+            ({ id, text, createdDate, createdTime, completed }) => (
+              <li key={id}>
+                {/* <List
                 listItem={text + " " + createdDate + " " + createdTime}
+                itemId={id}
                 key={id}
-              />
-              <button
-                onClick={() => {
-                  setShowModal(true);
-                  setSelectedTodo(id);
-                }}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
+              /> */}
+                <input
+                  type="checkbox"
+                  id={id.toString()}
+                  onChange={() => toggleComeletion(id)}
+                />
+                <label
+                  htmlFor={id.toString()}
+                  style={{
+                    textDecoration: completed ? "line-through" : "none",
+                  }}
+                >
+                  {completed}
+                  {text + " " + createdDate + " " + createdTime}
+                </label>
+                <button
+                  onClick={() => {
+                    setShowModal(true);
+                    setSelectedTodo(id);
+                  }}
+                >
+                  Remove
+                </button>
+              </li>
+            )
+          )}
         </div>
       </div>
       {showModal && (

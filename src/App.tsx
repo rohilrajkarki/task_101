@@ -7,11 +7,11 @@ import Home from "./pages/Home";
 function App() {
   return (
     <div className="main_container">
-      {/* <Home />
-      {mockData.map((item) => (
+      <Home />
+      {/* {mockData.map((item) => (
         <DateBox workData={item} key={item.date} />
       ))} */}
-      <Calend />
+      {/* <Calend /> */}
     </div>
   );
 }

@@ -42,6 +42,7 @@ const Calend = () => {
     setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1));
   };
 
+  console.log("date:", currentDate.getMonth(), currentDate, renderCalendar());
   return (
     <div className="calendar">
       <div className="header">
