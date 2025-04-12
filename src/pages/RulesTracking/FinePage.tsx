@@ -1,7 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  getCurrentUser,
+  getUser,
+  login,
+  loginWithGoogle,
+  logoutUser,
+} from "../../lib/appwrite";
+import { useAppwrite } from "../../lib/useAppwrite";
 
 const FinePage = () => {
   const [amount, setAmount] = useState(0);
+  const [manualAmount, setManualAmount] = useState(0);
 
   const [totalAmount, setTotalAmount] = useState(40);
 
@@ -11,12 +20,55 @@ const FinePage = () => {
     } else {
       setAmount((prev) => prev - 5);
     }
+    console.log(text);
   };
 
   const updateAmount = () => {
-    setTotalAmount((prev) => prev + amount);
-    setAmount(0);
+    if (amount !== 0) {
+      setTotalAmount((prev) => prev + amount);
+      console.log(amount);
+      setAmount(0);
+    } else {
+      console.log(manualAmount);
+      setTotalAmount((prev) => prev + manualAmount);
+      setManualAmount(0);
+    }
   };
+
+  // const {
+  //   data: user,
+  //   loading,
+  //   refetch,
+  // } = useAppwrite({
+  //   fn: getCurrentUser,
+  // });
+
+  // const handleLogin = async () => {
+  //   const result = await login();
+
+  //   if (result) {
+  //     console.log("login Success");
+  //     refetch();
+  //   } else {
+  //     // alert( "Failed to login signIN");
+  //     console.log("Failed to login signIN");
+  //   }
+  // };
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const userData = await getUser();
+        setUser(userData);
+      } catch (error) {
+        setUser(null);
+      }
+    };
+
+    checkUser();
+  }, []);
 
   return (
     <div className="w-full max-w-2xl p-6 rounded-2xl shadow-xl border border-gray-700 bg-gray-900 mx-auto mt-10 space-y-6 text-gray-100">
@@ -41,7 +93,7 @@ const FinePage = () => {
         >
           +5
         </button>
-        Update {amount}
+        <strong>Update {amount}</strong>
         <button
           className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-5 rounded-lg shadow"
           onClick={() => addSubAmount()}
@@ -60,6 +112,8 @@ const FinePage = () => {
           type="number"
           className="w-32 px-3 py-2 border border-gray-600 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="e.g. 10"
+          value={manualAmount}
+          onChange={(e) => setManualAmount(Number(e.target.value))}
         />
       </div>
 
@@ -71,6 +125,19 @@ const FinePage = () => {
         <p className="text-gray-400 text-sm">
           List of tasks to complete will be displayed here.
         </p>
+      </div>
+
+      {/* <button onClick={handleLogin}>Login with google</button> */}
+
+      <div>
+        {user ? (
+          <>
+            <p>Welcome, {user.name}!</p>
+            <button onClick={logoutUser}>Logout</button>
+          </>
+        ) : (
+          <button onClick={loginWithGoogle}>Login with Google</button>
+        )}
       </div>
     </div>
   );
