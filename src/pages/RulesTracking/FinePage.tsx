@@ -1,19 +1,77 @@
+import { useState } from "react";
+
 const FinePage = () => {
+  const [amount, setAmount] = useState(0);
+
+  const [totalAmount, setTotalAmount] = useState(40);
+
+  const addSubAmount = (text?: string) => {
+    if (text === "add") {
+      setAmount((prev) => prev + 5);
+    } else {
+      setAmount((prev) => prev - 5);
+    }
+  };
+
+  const updateAmount = () => {
+    setTotalAmount((prev) => prev + amount);
+    setAmount(0);
+  };
+
   return (
-    <div className="w-full max-h-svw max-w-2xl p-6 rounded-2xl shadow-xl border border-gray-200">
-      <div className=" flex justify-between">
-        <div>User Name</div>
-        <div>TOtal fines</div>
+    <div className="w-full max-w-2xl p-6 rounded-2xl shadow-xl border border-gray-700 bg-gray-900 mx-auto mt-10 space-y-6 text-gray-100">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg font-semibold">User Name</h2>
+        <span>
+          Total Fines: <strong>${totalAmount}</strong>
+        </span>
       </div>
-      <div className="p-3 border border-gray-300 rounded-md shadow-sm max-w-">
-        Latest fines detials
+
+      {/* Latest Fine Details */}
+      <div className="p-4 border border-gray-600 rounded-lg shadow-sm text-gray-200">
+        <p className="text-sm">Latest fines details will appear here.</p>
       </div>
-      <div>
-        <div> button +5</div>
-        <div> button -5</div>
+
+      {/* Fine Adjustment Buttons */}
+      <div className="flex justify-between">
+        <button
+          className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow"
+          onClick={() => addSubAmount("add")}
+        >
+          +5
+        </button>
+        Update {amount}
+        <button
+          className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-5 rounded-lg shadow"
+          onClick={() => addSubAmount()}
+        >
+          -5
+        </button>
       </div>
-      <div>Custom</div>
-      <div>Upcomming Task for fine</div>
+
+      {/* Manual Fine Input */}
+      <div className="flex items-center space-x-3">
+        <label htmlFor="manualFine" className="font-medium text-gray-200">
+          Enter amount:
+        </label>
+        <input
+          id="manualFine"
+          type="number"
+          className="w-32 px-3 py-2 border border-gray-600 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="e.g. 10"
+        />
+      </div>
+
+      <button onClick={updateAmount}>Confirm</button>
+
+      {/* Upcoming Tasks */}
+      <div className="pt-4 border-t border-gray-700">
+        <h3 className="text-md font-semibold mb-2">Upcoming Tasks</h3>
+        <p className="text-gray-400 text-sm">
+          List of tasks to complete will be displayed here.
+        </p>
+      </div>
     </div>
   );
 };
