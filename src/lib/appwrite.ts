@@ -1,7 +1,6 @@
 import { Client, Account, Avatars, OAuthProvider } from "appwrite";
 
 export const config = {
-  platform: "com.real.state",
   endpoint: import.meta.env.VITE_APPWRITE_ENDPOINT,
   projectId: import.meta.env.VITE_APPWRITE_PROJECT_ID,
   //   databaseId: import.meta.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID,
@@ -20,80 +19,65 @@ client.setEndpoint(config.endpoint!).setProject(config.projectId!);
 export const avatar = new Avatars(client); //for image avatar
 export const account = new Account(client);
 
-// export async function login() {
-//   //Using expo linking to handling deep links and redirect URLs
-//   try {
-//     // const redirectUri = Linking.createURL("/"); //redirect to home
-//     const response = await account.createOAuth2Token(
-//       OAuthProvider.Google,
-//       "http://localhost:5173/" //redirectUri
-//     );
-//     if (!response) throw new Error("Failed to login error 1");
-
-//     const session = await account.getSession("current");
-
-//     // Provider information
-//     console.log("the user's session ", session.provider);
-
-//     return true;
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
-
-// export async function logout() {
-//   try {
-//     const response = await account.get();
-//     await account.deleteSession("current");
-//     console.log("logging out", response.email);
-//     return true;
-//   } catch (error) {
-//     console.error(error);
-//     return false;
-//   }
-// }
-
-export const loginWithGoogle = async () => {
+export async function login() {
   try {
-    await account.createOAuth2Session(
+    const redirectUri = `${window.location.origin}/`; // Adjust path based on router
+    // This automatically redirects — no need to handle the URL
+    const response = await account.createOAuth2Token(
       OAuthProvider.Google,
-      "http://localhost:5173/"
+      redirectUri,
+      redirectUri
     );
-  } catch (error) {
-    console.error(error);
-  }
-};
 
-export const logoutUser = async () => {
+    console.log("response", response);
+    // alert(response);
+    if (!response) throw new Error("Failed to login error 1");
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const secret = urlParams.get("secret")?.toString();
+    const userId = urlParams.get("userId")?.toString();
+
+    if (!secret || !userId) throw new Error("Failed to login error 3");
+    const session = await account.createSession(userId, secret);
+
+    if (!session) throw new Error("Failed to create a session");
+
+    return true;
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+}
+
+// OAuth callback handling
+export async function handleOAuthCallback() {
   try {
-    await account.deleteSession("current");
-  } catch (error) {
-    console.error(error);
-  }
-};
+    const params = new URLSearchParams(window.location.search);
+    const secret = params.get("secret");
+    const userId = params.get("userId");
 
-export const getUser = async () => {
+    if (!secret || !userId) throw new Error("Missing secret or userId");
+
+    const session = await account.createSession(userId, secret);
+    return session;
+  } catch (error) {
+    console.error("Callback error:", error);
+    return null;
+  }
+}
+
+export async function getCurrentUser() {
   try {
-    return await account.get();
+    const response = await account.get();
+    if (response.$id) {
+      //then generate a avatar
+      const userAvatar = avatar.getInitials(response.name);
+      return {
+        ...response,
+        avatar: userAvatar.toString(),
+      };
+    }
   } catch (error) {
     console.error(error);
+    return false;
   }
-};
-
-// export async function getCurrentUser() {
-//   try {
-//     const response = await account.get();
-//     if (response.$id) {
-//       //then generate a avatar
-//       const userAvatar = avatar.getInitials(response.name);
-//       return {
-//         ...response,
-//         avatar: userAvatar.toString(),
-//       };
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     return false;
-//   }
-// }
+}

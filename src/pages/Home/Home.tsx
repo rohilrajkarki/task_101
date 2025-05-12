@@ -46,6 +46,7 @@ const Home = () => {
 
     setTodoItems(updatedTodos);
   };
+  console.log("data=>");
   return (
     <div className="home">
       <div className="todo_main_container">

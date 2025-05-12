@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import {
+  account,
   getCurrentUser,
-  getUser,
+  handleOAuthCallback,
   login,
-  loginWithGoogle,
-  logoutUser,
 } from "../../lib/appwrite";
+import { useNavigate } from "react-router";
 import { useAppwrite } from "../../lib/useAppwrite";
 
 const FinePage = () => {
@@ -35,6 +35,24 @@ const FinePage = () => {
     }
   };
 
+  const [user, setUser] = useState(null);
+  const handleLogin = async () => {
+    const result = await login();
+
+    if (result) {
+      console.log("login Success");
+      setUser(result);
+      console.log(result);
+      // refetch();
+    } else {
+      Alert.alert("Error", "Failed to login signIN");
+    }
+  };
+
+  const { data, loading } = useAppwrite({
+    fn: getCurrentUser,
+  });
+  console.log(user, data);
   // const {
   //   data: user,
   //   loading,
@@ -55,20 +73,18 @@ const FinePage = () => {
   //   }
   // };
 
-  const [user, setUser] = useState(null);
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     try {
+  //       const userData = await getUser();
+  //       setUser(userData);
+  //     } catch (error) {
+  //       setUser(null);
+  //     }
+  //   };
 
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const userData = await getUser();
-        setUser(userData);
-      } catch (error) {
-        setUser(null);
-      }
-    };
-
-    checkUser();
-  }, []);
+  //   checkUser();
+  // }, []);
 
   return (
     <div className="w-full max-w-2xl p-6 rounded-2xl shadow-xl border border-gray-700 bg-gray-900 mx-auto mt-10 space-y-6 text-gray-100">
@@ -132,11 +148,11 @@ const FinePage = () => {
       <div>
         {user ? (
           <>
-            <p>Welcome, {user.name}!</p>
-            <button onClick={logoutUser}>Logout</button>
+            <p>Welcome, !</p>
+            <button>Logout</button>
           </>
         ) : (
-          <button onClick={loginWithGoogle}>Login with Google</button>
+          <button onClick={login}>Login with Google</button>
         )}
       </div>
     </div>

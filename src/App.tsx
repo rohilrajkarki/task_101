@@ -1,15 +1,20 @@
 import "./App.scss";
-import Calend from "./components/Calander/Calend";
-import DateBox from "./components/DateBox/DateBox";
-import mockData from "./data/mockData";
+import { UserProvider } from "./lib/context/user";
 import Home from "./pages/Home/Home";
-import FinePage from "./pages/RulesTracking/FinePage";
+import { Login } from "./pages/Login/Login";
 
 function App() {
+  // const isLoginPage = window.location.pathname === "/login";
+  const isLoginPage = true;
+
+  console.log(isLoginPage);
   return (
     <div className="main_container">
-      {/* <Home /> */}
-      <FinePage />
+      <UserProvider>
+        <main>{isLoginPage ? <Login /> : <Home />}</main>
+        {/* <Home /> */}
+        {/* <FinePage /> */}
+      </UserProvider>
       {/* {mockData.map((item) => (
         <DateBox workData={item} key={item.date} />
       ))} */}
